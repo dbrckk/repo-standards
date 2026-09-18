@@ -1,5 +1,17 @@
 # Releases
 
+## v9
+
+Repo Brain v4 / incremental impact:
+
+- upgrades Repo Brain to v4;
+- reuses prior committed symbol/import indexes for small diffs;
+- reparses only changed source files when incremental state is valid;
+- automatically falls back to a full rebuild when state is missing, divergent, unreadable, or the diff is too large;
+- generates .ai/brain/impact.json with changed source, reverse-import impact and impacted symbols;
+- generates .ai/brain/selected-tests.json with likely targeted test files and candidate commands;
+- preserves v8 AST shard routing and unified single-commit context.
+
 ## v8
 
 Repo Brain v3 / ast-grep routing:
