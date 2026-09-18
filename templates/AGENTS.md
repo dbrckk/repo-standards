@@ -36,3 +36,11 @@ Repository-specific rules:
 - Never reproduce suspected secret values.
 - Update manual project-state sections when status, blockers, or next priority materially changes.
 - Maintain `.ai/session-state.json` for substantial multi-turn work so a later "Continue" can resume without reconstructing the repository.
+
+
+Context budget policy:
+- Start with the confidence-based context budget produced by Repo Brain.
+- High confidence: inspect up to 3 files.
+- Medium confidence: inspect up to 6 files.
+- Low confidence: inspect up to 12 files.
+- Expand only when evidence from the current tier is insufficient.
