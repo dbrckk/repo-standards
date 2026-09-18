@@ -34,7 +34,7 @@ jobs:
       commit_changes: false
 
   repo-brain:
-    uses: dbrckk/repo-brain/.github/workflows/reusable-index.yml@main
+    uses: dbrckk/repo-brain/.github/workflows/reusable-index.yml@v5
     with:
       commit_changes: false
 
@@ -116,6 +116,8 @@ jobs:
           test -s .ai/brain/incremental-state.json
           test -s .ai/brain/impact.json
           test -s .ai/brain/selected-tests.json
+          test -s .ai/brain/references.json
+          test -s .ai/brain/symbol-dependencies.json
           test -s .ai/brain/capabilities.json
           test -s .ai/brain/ast-routing.json
           test -d .ai/brain/ast-symbols
