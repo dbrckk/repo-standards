@@ -1,5 +1,17 @@
 # Releases
 
+## v8
+
+Repo Brain v3 / ast-grep routing:
+
+- upgrades Repo Brain to v3;
+- adds optional ast-grep Outline enrichment with portable fallback;
+- records exact symbol/member start and end ranges;
+- shards AST symbol lookup by initial to avoid monolithic index reads;
+- groups file outlines by repository area;
+- keeps Repo Brain outside the critical path by running it in parallel;
+- preserves one unified AI-context commit.
+
 ## v7
 
 Repo Brain integration:
