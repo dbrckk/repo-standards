@@ -7,7 +7,9 @@ Before substantial work:
 2. Read `.ai/session-state.json` when present.
 3. Read `.ai/project-state.md`.
 4. Read `.ai/brain/hotset.json`.
-5. Read `.ai/brain/context-manifest.json` and only the relevant `.ai/brain/context/<area>.json` packet.
+5. Read `.ai/brain/search-manifest.json` and only the needed `.ai/brain/search-shards/<initial>.json` shard for exact task terms.
+6. Reuse `.ai/brain/query-cache.json` when its fingerprint still matches current context.
+7. Read `.ai/brain/context-manifest.json` and only the relevant `.ai/brain/context/<area>.json` packet.
 6. Read `.ai/brain/graph-index.json` and the relevant `.ai/brain/graph-shards/<area>.json` when dependency routing matters.
 7. Use `.ai/brain/reverse-deps.json` for upstream/downstream file impact.
 8. Read `.ai/brain/impact.json` and `.ai/brain/selected-tests.json`.
