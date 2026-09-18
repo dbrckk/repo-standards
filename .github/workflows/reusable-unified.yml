@@ -1,0 +1,112 @@
+name: Reusable unified repository standards
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  ai-context:
+    uses: dbrckk/repo-standards/.github/workflows/reusable-ai-repo-map.yml@main
+    with:
+      commit_changes: false
+
+  repo-health:
+    uses: dbrckk/repo-standards/.github/workflows/reusable-repo-health.yml@main
+    with:
+      commit_changes: false
+
+  project-state:
+    uses: dbrckk/repo-standards/.github/workflows/reusable-project-state.yml@main
+    with:
+      commit_changes: false
+
+  context-intelligence:
+    uses: dbrckk/repo-standards/.github/workflows/reusable-context-intelligence.yml@main
+    with:
+      commit_changes: false
+
+  observability:
+    uses: dbrckk/repo-standards/.github/workflows/reusable-observability.yml@main
+    with:
+      commit_changes: false
+
+  commit-ai-context:
+    needs:
+      - ai-context
+      - repo-health
+      - project-state
+      - context-intelligence
+      - observability
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 50
+          ref: ${{ github.ref_name }}
+
+      - name: Remove stale segmented maps
+        shell: bash
+        run: |
+          rm -rf .ai/maps
+          mkdir -p .ai
+
+      - name: Download repo map context
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-map
+          path: .ai
+
+      - name: Download repo health
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-health
+          path: .ai
+
+      - name: Download project state
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-project-state
+          path: .ai
+
+      - name: Download context intelligence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-context-intelligence
+          path: .ai
+
+      - name: Download observability
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ai-observability
+          path: .ai
+
+      - name: Validate unified context
+        shell: bash
+        run: |
+          test -s .ai/repo-map.md
+          test -s .ai/index.md
+          test -s .ai/repo-health.md
+          test -s .ai/project-state.md
+          test -s .ai/architecture.json
+          test -s .ai/commands.json
+          test -s .ai/change-impact.md
+          test -s .ai/ci-status.md
+          test -s .ai/security-signals.json
+          test -s .ai/dependency-map.json
+
+      - name: Commit unified AI context
+        shell: bash
+        run: |
+          git add -A .ai
+          if git diff --cached --quiet; then
+            echo "AI context unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(ai): refresh unified AI context"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
