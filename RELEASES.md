@@ -1,5 +1,16 @@
 # Releases
 
+## v10
+
+Repo Brain v5 / incremental AST references:
+
+- upgrades Repo Brain to v5;
+- reparses ast-grep Outline only for changed source files in incremental mode;
+- preserves prior AST shards and merges refreshed files;
+- generates references.json for changed-symbol lexical occurrences;
+- generates symbol-dependencies.json for bounded dependency hints;
+- preserves portable fallback, targeted tests, and unified single-commit context.
+
 ## v9
 
 Repo Brain v4 / incremental impact:
