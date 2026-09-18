@@ -6,6 +6,7 @@ These rules are intended to be inherited by repositories using dbrckk/repo-stand
 1. Read `.ai/project-state.md` when present.
 2. Read `.ai/brain/impact.json` for changed source files, reverse-import impact, impacted symbols, and selected tests.
 3. Read `.ai/brain/selected-tests.json` before choosing validation scope.
+3. Read `.ai/brain/references.json` and `.ai/brain/symbol-dependencies.json` for changed-symbol routing.
 4. Read `.ai/change-impact.md` for the broader repository-level change summary.
 5. Read `.ai/architecture.json` for project shape and entrypoint candidates.
 6. Read `.ai/brain/summary.md`, `.ai/brain/incremental-state.json`, and `.ai/brain/capabilities.json`.
