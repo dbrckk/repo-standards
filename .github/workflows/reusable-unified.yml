@@ -9,32 +9,32 @@ permissions:
 
 jobs:
   ai-context:
-    uses: dbrckk/repo-standards/.github/workflows/reusable-ai-repo-map.yml@v7
+    uses: dbrckk/repo-standards/.github/workflows/reusable-ai-repo-map.yml@main
     with:
       commit_changes: false
 
   repo-health:
-    uses: dbrckk/repo-standards/.github/workflows/reusable-repo-health.yml@v7
+    uses: dbrckk/repo-standards/.github/workflows/reusable-repo-health.yml@main
     with:
       commit_changes: false
 
   project-state:
-    uses: dbrckk/repo-standards/.github/workflows/reusable-project-state.yml@v7
+    uses: dbrckk/repo-standards/.github/workflows/reusable-project-state.yml@main
     with:
       commit_changes: false
 
   context-intelligence:
-    uses: dbrckk/repo-standards/.github/workflows/reusable-context-intelligence.yml@v7
+    uses: dbrckk/repo-standards/.github/workflows/reusable-context-intelligence.yml@main
     with:
       commit_changes: false
 
   observability:
-    uses: dbrckk/repo-standards/.github/workflows/reusable-observability.yml@v7
+    uses: dbrckk/repo-standards/.github/workflows/reusable-observability.yml@main
     with:
       commit_changes: false
 
   repo-brain:
-    uses: dbrckk/repo-brain/.github/workflows/reusable-index.yml@v2
+    uses: dbrckk/repo-brain/.github/workflows/reusable-index.yml@main
     with:
       commit_changes: false
 
