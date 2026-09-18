@@ -8,7 +8,10 @@ Every active repository should expose a compact machine-readable context layer u
 2. `.ai/project-state.md` — persistent manual state plus automatic Git state.
 3. `.ai/brain/hotset.json` — bounded list of recently relevant files.
 4. `.ai/brain/context-manifest.json` plus one relevant packet under `.ai/brain/context/`.
-5. `.ai/brain/impact.json` — changed source files, reverse-import impact, impacted symbols and selected tests.
+5. `.ai/brain/graph-index.json` — compact dependency-routing summary and central files.
+6. Relevant `.ai/brain/graph-shards/<area>.json` — bounded dependency graph for one area.
+7. `.ai/brain/reverse-deps.json` — direct dependencies and dependents per file.
+8. `.ai/brain/impact.json` — changed source files, reverse-import impact, impacted symbols and selected tests.
 6. `.ai/brain/selected-tests.json` — targeted test files and candidate commands.
 7. `.ai/change-impact.md` — broader repository-level change summary.
 8. `.ai/architecture.json` — project types, source roots and entrypoint candidates.
