@@ -38,7 +38,8 @@
     "semantic-plan",
     "scip-semantic-index",
     "persistent-search-shards",
-    "task-fingerprint-cache"
+    "task-fingerprint-cache",
+    "same-package-symbol-graph"
   ],
   "standards_version": 14
 }
