@@ -124,6 +124,7 @@ jobs:
           test -s .ai/brain/context-manifest.json
           test -s .ai/brain/hash-cache.json
           test -s .ai/brain/graph-index.json
+          test -s .ai/brain/graph-enrichment.json
           test -s .ai/brain/reverse-deps.json
           test -s .ai/brain/graph-manifest.json
           test -s .ai/brain/architecture.mmd
