@@ -36,7 +36,7 @@ Then add `templates/project-state.md` as:
 .ai/project-state.md
 ```
 
-The reusable workflows remain centralized in this repository.
+The reusable workflows remain centralized in this repository. The project-state workflow preserves manual notes and refreshes only the section between `<!-- AUTO:START -->` and `<!-- AUTO:END -->`.
 
 ## Agent reading order
 
