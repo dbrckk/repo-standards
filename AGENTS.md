@@ -3,7 +3,7 @@
 These rules are intended to be inherited by repositories using dbrckk/repo-standards.
 
 ## Context first
-1. Read `.ai/project-state.md` when present.
+1. Read `.ai/project-state.md` when present, including its generated automatic state section.
 2. Read `.ai/repo-health.md` when present.
 3. Read `.ai/repo-map.md` before broad repository exploration.
 4. Fetch only the files, symbols, diffs, and line ranges needed for the task.
