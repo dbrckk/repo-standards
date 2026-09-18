@@ -127,6 +127,8 @@ jobs:
           test -s .ai/brain/reverse-deps.json
           test -s .ai/brain/graph-manifest.json
           test -s .ai/brain/architecture.mmd
+          test -s .ai/brain/semantic-plan.json
+          test -s .ai/brain/semantic-index.json
           test -d .ai/brain/context
           test -d .ai/brain/ast-symbols
           test -d .ai/brain/file-outlines
