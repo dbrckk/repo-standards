@@ -1,5 +1,15 @@
 # Releases
 
+## v7
+
+Repo Brain integration:
+
+- adds dbrckk/repo-brain v2 as a sixth parallel context generator;
+- produces compact symbol lookup, full symbol index, imports and a lightweight internal code graph;
+- routes agents through symbol lookup before segmented or full Repomix maps;
+- merges Repo Brain output into the same unified single AI-context commit;
+- preserves the parallel artifact architecture introduced in v6.
+
 ## v6
 
 Unified single-commit repository standards:
