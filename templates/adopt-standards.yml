@@ -1,0 +1,15 @@
+name: Repository standards
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - ".ai/**"
+  workflow_dispatch:
+
+jobs:
+  ai-context:
+    uses: dbrckk/repo-standards/.github/workflows/reusable-ai-repo-map.yml@main
+
+  repo-health:
+    uses: dbrckk/repo-standards/.github/workflows/reusable-repo-health.yml@main
