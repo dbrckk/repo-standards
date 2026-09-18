@@ -24,7 +24,7 @@ jobs:
           commit_date="$(git log -1 --format=%cI)"
           commit_subject="$(git log -1 --format=%s)"
           tracked_files="$(git ls-files | wc -l | tr -d ' ')"
-          recent_files="$(git log -n 5 --name-only --pretty=format: -- . ':!.ai/**' | sed '/^$/d' | awk '!seen[$0]++' | head -20)"
+          recent_files="$(git log -n 5 --name-only --pretty=format: -- . ':!.ai/**' | sed '/^$/d' | awk '!seen[$0]++' | sed -n '1,20p')"
 
           {
             echo "<!-- AUTO:START -->"
