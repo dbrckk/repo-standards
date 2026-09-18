@@ -2,6 +2,11 @@ name: Reusable project state
 
 on:
   workflow_call:
+    inputs:
+      commit_changes:
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -104,6 +109,7 @@ jobs:
           PY
 
       - name: Commit project state
+        if: ${{ inputs.commit_changes }}
         shell: bash
         run: |
           if git diff --quiet -- .ai/project-state.md && git ls-files --error-unmatch .ai/project-state.md >/dev/null 2>&1; then
@@ -114,3 +120,12 @@ jobs:
           git add .ai/project-state.md
           git commit -m "chore(ai): refresh project state"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload generated AI context
+        if: ${{ !inputs.commit_changes }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ai-project-state
+          path: .ai/project-state.md
+          include-hidden-files: true
+          if-no-files-found: error
