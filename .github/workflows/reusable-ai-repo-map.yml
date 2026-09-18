@@ -23,6 +23,10 @@ on:
         required: false
         type: number
         default: 8
+      commit_changes:
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -129,6 +133,7 @@ jobs:
           test "$bytes" -le "$MAX_BYTES"
 
       - name: Commit maps
+        if: ${{ inputs.commit_changes }}
         shell: bash
         run: |
           git add -A .ai/repo-map.md .ai/index.md .ai/maps
@@ -139,3 +144,15 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore(ai): refresh compact repo maps"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload generated AI context
+        if: ${{ !inputs.commit_changes }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ai-map
+          path: |
+            .ai/repo-map.md
+            .ai/index.md
+            .ai/maps/**
+          include-hidden-files: true
+          if-no-files-found: error
