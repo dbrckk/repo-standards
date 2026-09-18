@@ -48,3 +48,21 @@ The reusable workflows remain centralized in this repository. The project-state 
 ## Standards
 
 See `standards/` for AI-context, testing, and security conventions.
+
+
+## v4 context intelligence
+
+The experimental v4 context layer adds:
+
+- `.ai/architecture.json` for project type, descriptors, top-level modules and entrypoint candidates.
+- `.ai/commands.json` for detected test/build/lint commands.
+- `.ai/change-impact.md` for the latest changed files, affected areas and direct test candidates.
+
+Recommended v4 reading order:
+
+1. `.ai/project-state.md`
+2. `.ai/change-impact.md`
+3. `.ai/architecture.json`
+4. `.ai/commands.json`
+5. `.ai/repo-health.md`
+6. `.ai/repo-map.md` only when needed
