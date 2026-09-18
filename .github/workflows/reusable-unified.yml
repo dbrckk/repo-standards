@@ -129,6 +129,9 @@ jobs:
           test -s .ai/brain/architecture.mmd
           test -s .ai/brain/semantic-plan.json
           test -s .ai/brain/semantic-index.json
+          test -s .ai/brain/search-manifest.json
+          test -d .ai/brain/search-shards
+          test -s .ai/brain/query-cache.json
           test -d .ai/brain/context
           test -d .ai/brain/ast-symbols
           test -d .ai/brain/file-outlines
