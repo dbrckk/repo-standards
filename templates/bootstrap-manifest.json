@@ -36,7 +36,9 @@
     "session-state",
     "architecture-mermaid",
     "semantic-plan",
-    "scip-semantic-index"
+    "scip-semantic-index",
+    "persistent-search-shards",
+    "task-fingerprint-cache"
   ],
-  "standards_version": 13
+  "standards_version": 14
 }
