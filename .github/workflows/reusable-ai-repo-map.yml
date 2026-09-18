@@ -97,7 +97,7 @@ jobs:
             END {
               for (d in count) print count[d], d
             }
-          ' | sort -nr | head -n "$MAX_SEGMENTS" | while read -r count dir; do
+          ' | sort -nr | sed -n "1,${MAX_SEGMENTS}p" | while read -r count dir; do
             slug="$(printf '%s' "$dir" | tr -cs 'A-Za-z0-9._-' '-')"
             out=".ai/maps/$slug.md"
             npx --yes repomix@1.18.0 "$dir" \
