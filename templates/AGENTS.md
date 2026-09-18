@@ -8,7 +8,9 @@ Before substantial work:
 3. Read `.ai/project-state.md`.
 4. Read `.ai/brain/hotset.json`.
 5. Read `.ai/brain/context-manifest.json` and only the relevant `.ai/brain/context/<area>.json` packet.
-6. Read `.ai/brain/impact.json` and `.ai/brain/selected-tests.json`.
+6. Read `.ai/brain/graph-index.json` and the relevant `.ai/brain/graph-shards/<area>.json` when dependency routing matters.
+19. Use `.ai/brain/reverse-deps.json` for upstream/downstream file impact.
+20. Read `.ai/brain/impact.json` and `.ai/brain/selected-tests.json`.
 7. Read `.ai/brain/references.json` and `.ai/brain/symbol-dependencies.json` only when symbol routing requires them.
 8. Read `.ai/change-impact.md` and `.ai/architecture.json` when broader structure is needed.
 9. Read `.ai/brain/summary.md`, `.ai/brain/incremental-state.json`, and `.ai/brain/capabilities.json` when index freshness/capabilities matter.
