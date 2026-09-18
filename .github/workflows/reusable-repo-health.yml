@@ -2,6 +2,11 @@ name: Reusable repo health
 
 on:
   workflow_call:
+    inputs:
+      commit_changes:
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -39,6 +44,7 @@ jobs:
           } > .ai/repo-health.md
 
       - name: Commit health report
+        if: ${{ inputs.commit_changes }}
         shell: bash
         run: |
           if git diff --quiet -- .ai/repo-health.md && git ls-files --error-unmatch .ai/repo-health.md >/dev/null 2>&1; then
@@ -49,3 +55,12 @@ jobs:
           git add .ai/repo-health.md
           git commit -m "chore(ai): refresh repo health"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload generated AI context
+        if: ${{ !inputs.commit_changes }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ai-health
+          path: .ai/repo-health.md
+          include-hidden-files: true
+          if-no-files-found: error
