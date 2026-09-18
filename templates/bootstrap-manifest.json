@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "policy": "all-new-projects",
+  "standards_ref": "main",
+  "repo_brain_ref": "main",
+  "required_files": [
+    {
+      "source": "templates/AGENTS.md",
+      "target": "AGENTS.md"
+    },
+    {
+      "source": "templates/repo-standards.yml",
+      "target": ".repo-standards.yml"
+    },
+    {
+      "source": "templates/adopt-standards.yml",
+      "target": ".github/workflows/ai-repo-map.yml"
+    },
+    {
+      "source": "templates/project-state.md",
+      "target": ".ai/project-state.md"
+    }
+  ],
+  "required_capabilities": [
+    "incremental-index",
+    "ast-routing",
+    "hotset",
+    "context-packets",
+    "compact-graph",
+    "reverse-dependencies",
+    "hash-cache",
+    "session-state",
+    "architecture-mermaid"
+  ]
+}
