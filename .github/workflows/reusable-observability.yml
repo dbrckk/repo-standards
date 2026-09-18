@@ -1,0 +1,179 @@
+name: Reusable repository observability
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  observability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 20
+          ref: ${{ github.ref_name }}
+
+      - name: Generate CI, security and dependency summaries
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          mkdir -p .ai
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, os, re, subprocess
+
+          files = subprocess.check_output(["git","ls-files"], text=True).splitlines()
+
+          # CI summary: exclude the standards workflow itself to avoid self-noise.
+          ci_lines = ["# CI status", ""]
+          try:
+              raw = subprocess.check_output([
+                  "gh","run","list","--limit","12",
+                  "--json","name,status,conclusion,headSha,createdAt,event,url"
+              ], text=True)
+              runs = json.loads(raw)
+              runs = [r for r in runs if r.get("name") != "Repository standards"][:8]
+              if runs:
+                  for r in runs:
+                      status = r.get("status") or "unknown"
+                      conclusion = r.get("conclusion") or "pending"
+                      sha = (r.get("headSha") or "")[:8]
+                      ci_lines.append(f"- {r.get('name','workflow')}: {status} / {conclusion} ({sha})")
+              else:
+                  ci_lines.append("- No non-standards workflow runs found.")
+          except Exception:
+              ci_lines.append("- CI history unavailable to this workflow.")
+          ci_lines += ["", "> Generated summary only; inspect GitHub Actions for full logs when needed.", ""]
+          Path(".ai/ci-status.md").write_text("\n".join(ci_lines))
+
+          # Security signals: report only category/path/line, never the matched value.
+          patterns = [
+              ("private_key_header", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----")),
+              ("github_pat", re.compile(r"gh[pousr]_[A-Za-z0-9_]{20,}")),
+              ("aws_access_key", re.compile(r"AKIA[0-9A-Z]{16}")),
+              ("generic_secret_assignment", re.compile(r"(?i)(api[_-]?key|secret|token|password)\s*[:=]\s*['\"][^'\"]{12,}['\"]")),
+          ]
+          skip_ext = {".png",".jpg",".jpeg",".gif",".webp",".pdf",".zip",".jar",".apk",".aab",".so",".dll",".exe",".bin",".woff",".woff2"}
+          skip_prefix = (".ai/","node_modules/","build/","dist/","vendor/")
+          findings = []
+          for path in files:
+              if path.startswith(skip_prefix) or Path(path).suffix.lower() in skip_ext:
+                  continue
+              p = Path(path)
+              try:
+                  if p.stat().st_size > 500_000:
+                      continue
+                  text = p.read_text(errors="ignore")
+              except Exception:
+                  continue
+              for lineno, line in enumerate(text.splitlines(), 1):
+                  for category, rx in patterns:
+                      if rx.search(line):
+                          findings.append({"category":category,"path":path,"line":lineno})
+                          break
+                  if len(findings) >= 100:
+                      break
+              if len(findings) >= 100:
+                  break
+
+          risky_names = []
+          for path in files:
+              low = path.lower()
+              if low.endswith((".pem",".key",".p12",".pfx")) or low in {".env","id_rsa","id_ed25519"}:
+                  risky_names.append(path)
+
+          Path(".ai/security-signals.json").write_text(json.dumps({
+              "schema_version": 1,
+              "generated_by": "dbrckk/repo-standards",
+              "note": "Heuristic signals only. Values are intentionally never emitted.",
+              "potential_secret_locations": findings,
+              "risky_tracked_filenames": risky_names[:100],
+              "finding_count": len(findings),
+              "risky_filename_count": len(risky_names)
+          }, indent=2) + "\n")
+
+          # Lightweight dependency map from manifests/import roots.
+          depmap = {
+              "schema_version": 1,
+              "generated_by": "dbrckk/repo-standards",
+              "manifests": [],
+              "external_dependencies": [],
+              "internal_roots": [],
+          }
+          deps = set()
+          manifests = []
+
+          for path in files:
+              name = Path(path).name
+              if name in {"package.json","pyproject.toml","requirements.txt","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts"}:
+                  manifests.append(path)
+
+              if name == "package.json":
+                  try:
+                      pkg = json.loads(Path(path).read_text())
+                      for section in ("dependencies","devDependencies","peerDependencies","optionalDependencies"):
+                          deps.update((pkg.get(section) or {}).keys())
+                  except Exception:
+                      pass
+
+              elif name == "requirements.txt":
+                  try:
+                      for line in Path(path).read_text(errors="ignore").splitlines():
+                          line = line.strip()
+                          if not line or line.startswith(("#","-")):
+                              continue
+                          pkg = re.split(r"[<>=!~\[]", line, 1)[0].strip()
+                          if pkg:
+                              deps.add(pkg)
+                  except Exception:
+                      pass
+
+              elif name == "pyproject.toml":
+                  try:
+                      import tomllib
+                      data = tomllib.loads(Path(path).read_text())
+                      project = data.get("project", {})
+                      for item in project.get("dependencies", []) or []:
+                          pkg = re.split(r"[<>=!~\[; ]", item, 1)[0].strip()
+                          if pkg:
+                              deps.add(pkg)
+                  except Exception:
+                      pass
+
+          roots = []
+          seen = set()
+          source_exts = {".py",".js",".jsx",".ts",".tsx",".java",".kt",".kts",".gd",".rs",".go"}
+          for path in files:
+              p = Path(path)
+              if p.suffix.lower() not in source_exts or "/" not in path:
+                  continue
+              root = path.split("/",1)[0]
+              if root.startswith(".") or root in {"node_modules","build","dist","vendor"}:
+                  continue
+              if root not in seen:
+                  seen.add(root)
+                  roots.append(root)
+
+          depmap["manifests"] = manifests[:100]
+          depmap["external_dependencies"] = sorted(deps)[:500]
+          depmap["internal_roots"] = roots[:100]
+          Path(".ai/dependency-map.json").write_text(json.dumps(depmap, indent=2) + "\n")
+          PY
+
+      - name: Commit observability summaries
+        shell: bash
+        run: |
+          git add .ai/ci-status.md .ai/security-signals.json .ai/dependency-map.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(ai): refresh repository observability"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
