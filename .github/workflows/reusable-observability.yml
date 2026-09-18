@@ -35,7 +35,7 @@ jobs:
           try:
               raw = subprocess.check_output([
                   "gh","run","list","--limit","12",
-                  "--json","name,status,conclusion,headSha,createdAt,event,url"
+                  "--json","databaseId,name,status,conclusion,headSha,createdAt,event,url"
               ], text=True)
               runs = json.loads(raw)
               runs = [r for r in runs if r.get("name") != "Repository standards"][:8]
@@ -52,6 +52,31 @@ jobs:
                       conclusion = r.get("conclusion") or "pending"
                       sha = (r.get("headSha") or "")[:8]
                       ci_lines.append(f"- {r.get('name','workflow')}: {status} / {conclusion} ({sha})")
+
+                  failed = next((r for r in runs if r.get("conclusion") in {"failure","timed_out","action_required","startup_failure"}), None)
+                  if failed and failed.get("databaseId"):
+                      try:
+                          detail_raw = subprocess.check_output([
+                              "gh","run","view",str(failed["databaseId"]),"--json","jobs"
+                          ], text=True)
+                          detail = json.loads(detail_raw)
+                          failed_jobs = []
+                          for job in detail.get("jobs", []):
+                              bad_steps = [
+                                  step.get("name","step")
+                                  for step in job.get("steps", [])
+                                  if step.get("conclusion") in {"failure","timed_out","action_required","startup_failure"}
+                              ]
+                              if job.get("conclusion") in {"failure","timed_out","action_required","startup_failure"} or bad_steps:
+                                  failed_jobs.append((job.get("name","job"), bad_steps))
+                          if failed_jobs:
+                              ci_lines += ["", "## Latest failed run structure"]
+                              for job_name, bad_steps in failed_jobs[:10]:
+                                  ci_lines.append("- Job: " + job_name)
+                                  for step_name in bad_steps[:10]:
+                                      ci_lines.append("  - Failed step: " + step_name)
+                      except Exception:
+                          pass
               else:
                   ci_lines.append("- No non-standards workflow runs found.")
           except Exception:
