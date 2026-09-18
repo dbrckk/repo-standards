@@ -75,7 +75,17 @@ jobs:
               for lineno, line in enumerate(text.splitlines(), 1):
                   for category, rx in patterns:
                       if rx.search(line):
-                          findings.append({"category":category,"path":path,"line":lineno})
+                          test_like = path.startswith("tests/") or "/tests/" in path or Path(path).name.startswith("test_")
+                          severity = "high" if category in {"private_key_header","aws_access_key","github_pat"} else "medium"
+                          if test_like:
+                              severity = "low" if category == "generic_secret_assignment" else "medium"
+                          findings.append({
+                              "category": category,
+                              "path": path,
+                              "line": lineno,
+                              "context": "test_fixture_candidate" if test_like else "source",
+                              "severity": severity
+                          })
                           break
                   if len(findings) >= 100:
                       break
@@ -95,18 +105,23 @@ jobs:
               "potential_secret_locations": findings,
               "risky_tracked_filenames": risky_names[:100],
               "finding_count": len(findings),
+              "high_severity_count": sum(1 for item in findings if item.get("severity") == "high"),
+              "medium_severity_count": sum(1 for item in findings if item.get("severity") == "medium"),
+              "low_severity_count": sum(1 for item in findings if item.get("severity") == "low"),
               "risky_filename_count": len(risky_names)
           }, indent=2) + "\n")
 
           # Lightweight dependency map from manifests/import roots.
           depmap = {
-              "schema_version": 1,
+              "schema_version": 2,
               "generated_by": "dbrckk/repo-standards",
               "manifests": [],
               "external_dependencies": [],
+              "inferred_imports": [],
               "internal_roots": [],
           }
           deps = set()
+          inferred = set()
           manifests = []
 
           for path in files:
@@ -160,8 +175,63 @@ jobs:
                   seen.add(root)
                   roots.append(root)
 
+          # Infer dependencies from source imports when manifests are absent or incomplete.
+          internal_names = set(roots)
+          try:
+              import sys
+              stdlib = set(getattr(sys, "stdlib_module_names", ()))
+          except Exception:
+              stdlib = set()
+
+          for path in files:
+              p = Path(path)
+              if path.startswith((".ai/","build/","dist/","node_modules/","vendor/")):
+                  continue
+              try:
+                  if p.stat().st_size > 300_000:
+                      continue
+                  text = p.read_text(errors="ignore")
+              except Exception:
+                  continue
+
+              if p.suffix == ".py":
+                  try:
+                      import ast
+                      tree = ast.parse(text)
+                      for node in ast.walk(tree):
+                          names = []
+                          if isinstance(node, ast.Import):
+                              names = [alias.name.split(".",1)[0] for alias in node.names]
+                          elif isinstance(node, ast.ImportFrom) and node.module:
+                              names = [node.module.split(".",1)[0]]
+                          for name in names:
+                              if name and name not in stdlib and name not in internal_names:
+                                  inferred.add(name)
+                  except Exception:
+                      pass
+
+              elif p.suffix.lower() in {".js",".jsx",".ts",".tsx",".mjs",".cjs"}:
+                  for match in re.finditer(r"(?:from\s+|require\(|import\s*\()\s*['\"]([^'\"]+)['\"]", text):
+                      name = match.group(1)
+                      if name.startswith((".","/")):
+                          continue
+                      if name.startswith("@"):
+                          parts = name.split("/")
+                          pkg = "/".join(parts[:2]) if len(parts) >= 2 else name
+                      else:
+                          pkg = name.split("/",1)[0]
+                      inferred.add(pkg)
+
+              elif p.suffix.lower() in {".kt",".kts",".java"}:
+                  for match in re.finditer(r"(?m)^\s*import\s+([A-Za-z0-9_.]+)", text):
+                      dotted = match.group(1)
+                      top = ".".join(dotted.split(".")[:2])
+                      if not top.startswith(("java.","javax.","kotlin.")):
+                          inferred.add(top)
+
           depmap["manifests"] = manifests[:100]
           depmap["external_dependencies"] = sorted(deps)[:500]
+          depmap["inferred_imports"] = sorted(inferred - deps)[:500]
           depmap["internal_roots"] = roots[:100]
           Path(".ai/dependency-map.json").write_text(json.dumps(depmap, indent=2) + "\n")
           PY
