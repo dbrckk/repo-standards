@@ -66,3 +66,28 @@ Recommended v4 reading order:
 4. `.ai/commands.json`
 5. `.ai/repo-health.md`
 6. `.ai/repo-map.md` only when needed
+
+
+## v5 observability
+
+The experimental v5 layer adds:
+
+- `.ai/ci-status.md` for recent non-standards GitHub Actions results.
+- `.ai/security-signals.json` for heuristic secret/risky-file locations without ever writing matched values.
+- `.ai/dependency-map.json` for manifests, external dependencies, inferred imports, and internal roots.
+
+Security findings include context and severity. Test fixtures are marked separately to reduce false-positive confusion.
+
+Recommended v5 reading order:
+
+1. `.ai/project-state.md`
+2. `.ai/change-impact.md`
+3. `.ai/architecture.json`
+4. `.ai/dependency-map.json`
+5. `.ai/commands.json`
+6. `.ai/ci-status.md`
+7. `.ai/security-signals.json`
+8. `.ai/repo-health.md`
+9. `.ai/index.md`
+10. Relevant `.ai/maps/<area>.md`
+11. `.ai/repo-map.md` only when required
