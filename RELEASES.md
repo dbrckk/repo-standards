@@ -1,5 +1,16 @@
 # Releases
 
+## v6
+
+Unified single-commit repository standards:
+
+- runs repo map, health, project state, context intelligence, and observability generators in parallel;
+- transfers generated context through GitHub Actions artifacts;
+- validates all generated context before writing;
+- performs one final `chore(ai): refresh unified AI context` commit;
+- avoids repeated AI commits that can retrigger unrelated CI workflows;
+- preserves v5 context, security, dependency, CI, and segmented-map capabilities.
+
 ## v5
 
 Stable repository standards with:
