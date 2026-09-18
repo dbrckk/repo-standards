@@ -19,6 +19,10 @@
     {
       "source": "templates/project-state.md",
       "target": ".ai/project-state.md"
+    },
+    {
+      "source": "templates/semantic-refresh.yml",
+      "target": ".github/workflows/semantic-refresh.yml"
     }
   ],
   "required_capabilities": [
@@ -30,6 +34,9 @@
     "reverse-dependencies",
     "hash-cache",
     "session-state",
-    "architecture-mermaid"
-  ]
+    "architecture-mermaid",
+    "semantic-plan",
+    "scip-semantic-index"
+  ],
+  "standards_version": 13
 }
