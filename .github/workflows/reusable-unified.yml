@@ -33,6 +33,11 @@ jobs:
     with:
       commit_changes: false
 
+  repo-brain:
+    uses: dbrckk/repo-brain/.github/workflows/reusable-index.yml@v2
+    with:
+      commit_changes: false
+
   commit-ai-context:
     needs:
       - ai-context
@@ -40,6 +45,7 @@ jobs:
       - project-state
       - context-intelligence
       - observability
+      - repo-brain
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repository
@@ -84,6 +90,12 @@ jobs:
           name: ai-observability
           path: .ai
 
+      - name: Download Repo Brain
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: repo-brain
+          path: .ai
+
       - name: Validate unified context
         shell: bash
         run: |
@@ -97,6 +109,10 @@ jobs:
           test -s .ai/ci-status.md
           test -s .ai/security-signals.json
           test -s .ai/dependency-map.json
+          test -s .ai/brain/index.json
+          test -s .ai/brain/lookup.json
+          test -s .ai/brain/code-graph.json
+          test -s .ai/brain/summary.md
 
       - name: Commit unified AI context
         shell: bash
