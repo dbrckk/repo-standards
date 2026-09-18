@@ -1,0 +1,64 @@
+name: Reusable AI repo map
+
+on:
+  workflow_call:
+    inputs:
+      include:
+        required: false
+        type: string
+        default: "**/*.{py,js,mjs,cjs,ts,tsx,jsx,java,kt,kts,gd,groovy,gradle,toml,json,yaml,yml,sql,sh},README.md,AGENTS.md,PROJECT_*.md"
+      ignore:
+        required: false
+        type: string
+        default: ".ai/**,**/node_modules/**,**/.gradle/**,**/build/**,**/dist/**,**/.venv/**,**/__pycache__/**,**/.pytest_cache/**,**/.git/**,**/coverage/**,**/*.lock,**/*.min.js,**/*.map,assets/**,art/**,art_sources/**,marketing/**,colab/**,kaggle/**,discovery-cache.json,health-snapshot.json,history.json"
+      max_bytes:
+        required: false
+        type: number
+        default: 1500000
+
+permissions:
+  contents: write
+
+jobs:
+  build-map:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Generate compact AI map
+        shell: bash
+        env:
+          INCLUDE: ${{ inputs.include }}
+          IGNORE: ${{ inputs.ignore }}
+        run: |
+          mkdir -p .ai
+          npx --yes repomix@1.18.0 .             --style markdown             --compress             --output .ai/repo-map.md             --include "$INCLUDE"             --ignore "$IGNORE"
+
+      - name: Validate map
+        shell: bash
+        env:
+          MAX_BYTES: ${{ inputs.max_bytes }}
+        run: |
+          test -s .ai/repo-map.md
+          bytes="$(wc -c < .ai/repo-map.md)"
+          echo "repo-map bytes: $bytes"
+          test "$bytes" -le "$MAX_BYTES"
+
+      - name: Commit map
+        shell: bash
+        run: |
+          if git diff --quiet -- .ai/repo-map.md && git ls-files --error-unmatch .ai/repo-map.md >/dev/null 2>&1; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .ai/repo-map.md
+          git commit -m "chore(ai): refresh compact repo map"
+          git push
