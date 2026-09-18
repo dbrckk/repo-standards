@@ -40,6 +40,13 @@ jobs:
               runs = json.loads(raw)
               runs = [r for r in runs if r.get("name") != "Repository standards"][:8]
               if runs:
+                  success_count = sum(1 for r in runs if r.get("conclusion") == "success")
+                  failure_count = sum(1 for r in runs if r.get("conclusion") in {"failure","timed_out","action_required","startup_failure"})
+                  active_count = sum(1 for r in runs if r.get("status") in {"queued","in_progress","pending","requested","waiting"})
+                  ci_lines += [
+                      f"Summary: {success_count} success / {failure_count} failure / {active_count} active",
+                      ""
+                  ]
                   for r in runs:
                       status = r.get("status") or "unknown"
                       conclusion = r.get("conclusion") or "pending"
