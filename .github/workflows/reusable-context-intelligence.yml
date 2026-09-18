@@ -2,6 +2,11 @@ name: Reusable context intelligence
 
 on:
   workflow_call:
+    inputs:
+      commit_changes:
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -281,6 +286,7 @@ jobs:
           PY
 
       - name: Commit generated intelligence
+        if: ${{ inputs.commit_changes }}
         shell: bash
         run: |
           if git diff --quiet -- .ai/architecture.json .ai/commands.json .ai/change-impact.md \
@@ -294,3 +300,15 @@ jobs:
           git add .ai/architecture.json .ai/commands.json .ai/change-impact.md
           git commit -m "chore(ai): refresh context intelligence"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload generated AI context
+        if: ${{ !inputs.commit_changes }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ai-context-intelligence
+          path: |
+            .ai/architecture.json
+            .ai/commands.json
+            .ai/change-impact.md
+          include-hidden-files: true
+          if-no-files-found: error
