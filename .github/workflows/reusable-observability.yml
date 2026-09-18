@@ -209,6 +209,16 @@ jobs:
 
           # Infer dependencies from source imports when manifests are absent or incomplete.
           internal_names = set(roots)
+          internal_modules = set(internal_names)
+          for source_path in files:
+              sp = Path(source_path)
+              if sp.suffix.lower() in {".py",".js",".jsx",".ts",".tsx",".mjs",".cjs",".kt",".kts",".java"}:
+                  internal_modules.add(sp.stem)
+                  if sp.name == "__init__.py" and sp.parent.name:
+                      internal_modules.add(sp.parent.name)
+                  parts = sp.parts
+                  if len(parts) > 1:
+                      internal_modules.add(parts[1])
           try:
               import sys
               stdlib = set(getattr(sys, "stdlib_module_names", ()))
@@ -237,7 +247,7 @@ jobs:
                           elif isinstance(node, ast.ImportFrom) and node.module:
                               names = [node.module.split(".",1)[0]]
                           for name in names:
-                              if name and name not in stdlib and name not in internal_names:
+                              if name and name not in stdlib and name not in internal_modules:
                                   inferred.add(name)
                   except Exception:
                       pass
@@ -252,7 +262,8 @@ jobs:
                           pkg = "/".join(parts[:2]) if len(parts) >= 2 else name
                       else:
                           pkg = name.split("/",1)[0]
-                      inferred.add(pkg)
+                      if pkg not in internal_modules:
+                          inferred.add(pkg)
 
               elif p.suffix.lower() in {".kt",".kts",".java"}:
                   for match in re.finditer(r"(?m)^\s*import\s+([A-Za-z0-9_.]+)", text):
