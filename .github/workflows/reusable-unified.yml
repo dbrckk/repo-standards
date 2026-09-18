@@ -120,6 +120,10 @@ jobs:
           test -s .ai/brain/symbol-dependencies.json
           test -s .ai/brain/capabilities.json
           test -s .ai/brain/ast-routing.json
+          test -s .ai/brain/hotset.json
+          test -s .ai/brain/context-manifest.json
+          test -s .ai/brain/hash-cache.json
+          test -d .ai/brain/context
           test -d .ai/brain/ast-symbols
           test -d .ai/brain/file-outlines
 
