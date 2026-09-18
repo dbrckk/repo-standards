@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-09-18",
+  "stable_release": "v5",
+  "repositories": [
+    {
+      "repository": "dbrckk/ai-dev-server",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/xbow-perso",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/Jumpy",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/Ai-trading",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/zero-to-empire",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/deadline-zero",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/FTMO",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/star-list",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/Who-are-you",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    },
+    {
+      "repository": "dbrckk/Production-OS",
+      "standards_ref": "v5",
+      "version": 5,
+      "status": "adopted"
+    }
+  ]
+}
