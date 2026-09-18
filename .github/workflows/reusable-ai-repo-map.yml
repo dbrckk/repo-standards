@@ -15,6 +15,14 @@ on:
         required: false
         type: number
         default: 1500000
+      segment_threshold_bytes:
+        required: false
+        type: number
+        default: 400000
+      max_segments:
+        required: false
+        type: number
+        default: 8
 
 permissions:
   contents: write
@@ -22,7 +30,7 @@ permissions:
 jobs:
   build-map:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -47,24 +55,87 @@ jobs:
             --include "$INCLUDE" \
             --ignore "$IGNORE"
 
+      - name: Generate segmented maps when useful
+        shell: bash
+        env:
+          IGNORE: ${{ inputs.ignore }}
+          SEGMENT_THRESHOLD: ${{ inputs.segment_threshold_bytes }}
+          MAX_SEGMENTS: ${{ inputs.max_segments }}
+        run: |
+          bytes="$(wc -c < .ai/repo-map.md)"
+          rm -rf .ai/maps
+          mkdir -p .ai/maps
+
+          {
+            echo "# AI context index"
+            echo
+            echo "Primary context files:"
+            echo "- .ai/project-state.md"
+            echo "- .ai/change-impact.md"
+            echo "- .ai/architecture.json"
+            echo "- .ai/commands.json"
+            echo "- .ai/repo-health.md"
+            echo
+          } > .ai/index.md
+
+          if [ "$bytes" -le "$SEGMENT_THRESHOLD" ]; then
+            echo "Repository map is compact enough; use .ai/repo-map.md." >> .ai/index.md
+            exit 0
+          fi
+
+          echo "Large repository detected. Prefer the relevant segmented map before .ai/repo-map.md." >> .ai/index.md
+          echo >> .ai/index.md
+          echo "## Segmented maps" >> .ai/index.md
+
+          git ls-files | awk -F/ '
+            NF > 1 &&
+            $1 !~ /^\./ &&
+            $1 !~ /^(node_modules|build|dist|assets|art|art_sources|marketing|colab|kaggle)$/ &&
+            $0 ~ /\.(py|js|mjs|cjs|ts|tsx|jsx|java|kt|kts|gd|groovy|gradle|toml|json|ya?ml|sql|sh)$/ {
+              count[$1]++
+            }
+            END {
+              for (d in count) print count[d], d
+            }
+          ' | sort -nr | head -n "$MAX_SEGMENTS" | while read -r count dir; do
+            slug="$(printf '%s' "$dir" | tr -cs 'A-Za-z0-9._-' '-')"
+            out=".ai/maps/$slug.md"
+            npx --yes repomix@1.18.0 "$dir" \
+              --style markdown \
+              --compress \
+              --output "$out" \
+              --include "**/*.{py,js,mjs,cjs,ts,tsx,jsx,java,kt,kts,gd,groovy,gradle,toml,json,yaml,yml,sql,sh}" \
+              --ignore "$IGNORE"
+            if [ -s "$out" ]; then
+              echo "- $out ($count source/config files)" >> .ai/index.md
+            else
+              rm -f "$out"
+            fi
+          done
+
+          if ! find .ai/maps -type f -name '*.md' -print -quit | grep -q .; then
+            echo "- No useful segments generated; fall back to .ai/repo-map.md." >> .ai/index.md
+          fi
+
       - name: Validate map
         shell: bash
         env:
           MAX_BYTES: ${{ inputs.max_bytes }}
         run: |
           test -s .ai/repo-map.md
+          test -s .ai/index.md
           bytes="$(wc -c < .ai/repo-map.md)"
           echo "repo-map bytes: $bytes"
           test "$bytes" -le "$MAX_BYTES"
 
-      - name: Commit map
+      - name: Commit maps
         shell: bash
         run: |
-          if git diff --quiet -- .ai/repo-map.md && git ls-files --error-unmatch .ai/repo-map.md >/dev/null 2>&1; then
+          git add -A .ai/repo-map.md .ai/index.md .ai/maps
+          if git diff --cached --quiet; then
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .ai/repo-map.md
-          git commit -m "chore(ai): refresh compact repo map"
+          git commit -m "chore(ai): refresh compact repo maps"
           git push origin "HEAD:${GITHUB_REF_NAME}"
