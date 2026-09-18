@@ -45,6 +45,29 @@ jobs:
               top_dirs.append(top)
 
           project_types, descriptors = [], []
+          ext_counts = {}
+          for path in files:
+              suffix = Path(path).suffix.lower()
+              if suffix:
+                  ext_counts[suffix] = ext_counts.get(suffix, 0) + 1
+
+          inferred = [
+              (".py", "python"),
+              (".ts", "typescript"),
+              (".tsx", "typescript"),
+              (".js", "javascript"),
+              (".jsx", "javascript"),
+              (".kt", "kotlin"),
+              (".kts", "kotlin"),
+              (".java", "java"),
+              (".gd", "gdscript"),
+              (".rs", "rust"),
+              (".go", "go"),
+          ]
+          for ext, kind in inferred:
+              if ext_counts.get(ext, 0) >= 3 and kind not in project_types:
+                  project_types.append(kind)
+
           checks = [
               ("package.json", "node"),
               ("pyproject.toml", "python"),
@@ -78,12 +101,37 @@ jobs:
               if Path(f).name.lower() in {"main.py","main.kt","main.java","main.gd","app.py","server.py"} and f not in entrypoints:
                   entrypoints.append(f)
 
+          source_exts = {".py",".ts",".tsx",".js",".jsx",".kt",".kts",".java",".gd",".rs",".go"}
+          source_roots = []
+          source_seen = set()
+          test_roots = []
+          test_seen = set()
+          for path in files:
+              p = Path(path)
+              if p.suffix.lower() in source_exts:
+                  root_name = path.split("/",1)[0] if "/" in path else "(root)"
+                  if root_name not in source_seen:
+                      source_seen.add(root_name)
+                      source_roots.append(root_name)
+              parts = p.parts
+              if any(part.lower() in {"test","tests","spec","specs","__tests__"} for part in parts[:-1]):
+                  root_name = path.split("/",1)[0] if "/" in path else "(root)"
+                  if root_name not in test_seen:
+                      test_seen.add(root_name)
+                      test_roots.append(root_name)
+
           architecture = {
-              "schema_version": 1,
+              "schema_version": 2,
               "generated_by": "dbrckk/repo-standards",
               "project_types": project_types,
               "descriptors": descriptors,
+              "dominant_extensions": [
+                  {"extension": ext, "count": count}
+                  for ext, count in sorted(ext_counts.items(), key=lambda item: (-item[1], item[0]))[:12]
+              ],
               "top_level_directories": top_dirs[:30],
+              "source_roots": source_roots[:20],
+              "test_roots": test_roots[:20],
               "entrypoint_candidates": entrypoints,
               "context_files": {
                   "project_state": ".ai/project-state.md",
@@ -129,6 +177,19 @@ jobs:
               req = Path("requirements.txt").read_text(errors="ignore").lower()
               if "pytest" in req:
                   add("pytest", "test", "requirements.txt")
+
+          python_tests = [p for p in files if p.endswith(".py") and (p.startswith("tests/") or "/tests/" in p) and Path(p).name.startswith("test_")]
+          if python_tests and not any(item["purpose"] == "test" and "pytest" in item["command"] for item in commands):
+              add("python -m pytest tests", "test", "detected Python tests", "medium")
+
+          for path in files:
+              if not (path.startswith("scripts/") and path.endswith(".sh")):
+                  continue
+              name = Path(path).stem.lower()
+              if any(word in name for word in ("test","check","validate","doctor","smoke")):
+                  add("bash " + path, "validation helper", path, "medium")
+                  if len([x for x in commands if x["purpose"] == "validation helper"]) >= 8:
+                      break
 
           if exists("gradlew"):
               add("./gradlew test", "test", "gradlew")
