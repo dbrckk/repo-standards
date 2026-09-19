@@ -44,3 +44,9 @@ Context budget policy:
 - Medium confidence: inspect up to 6 files.
 - Low confidence: inspect up to 12 files.
 - Expand only when evidence from the current tier is insufficient.
+
+
+Learning feedback policy:
+- After a substantial task, record which files were actually useful, which routed files were unnecessary, and which tests were used.
+- Store deterministic feedback in `.ai/brain/routing-learning.json`.
+- Treat learned scores as routing hints only; always verify authoritative source before editing.
