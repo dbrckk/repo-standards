@@ -64,3 +64,9 @@ Validation memory policy:
 - Passed tests increase future test-routing preference for similar task terms; failed tests reduce it.
 - Never mark a test as passed unless an execution result confirmed success.
 - Selected-but-not-run tests remain hints only.
+
+
+Stability policy:
+- Treat Repo Brain regression tests as a hard gate for generated context.
+- Read `.ai/brain/benchmark.json` when diagnosing routing slowness or excessive context size.
+- Prefer fixing measured regressions over adding new indexing layers.
