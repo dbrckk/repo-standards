@@ -45,7 +45,9 @@
     "automatic-routing-learning",
     "validation-memory",
     "repo-brain-regression-gate",
-    "routing-benchmark"
+    "routing-benchmark",
+    "stable-v1",
+    "benchmark-health-gate"
   ],
-  "standards_version": 19
+  "standards_version": 20
 }
