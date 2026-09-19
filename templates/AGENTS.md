@@ -70,3 +70,10 @@ Stability policy:
 - Treat Repo Brain regression tests as a hard gate for generated context.
 - Read `.ai/brain/benchmark.json` when diagnosing routing slowness or excessive context size.
 - Prefer fixing measured regressions over adding new indexing layers.
+
+
+Stable v1 policy:
+- `.ai/brain/benchmark-health.json` is the machine-readable stability gate.
+- Average routed context must remain at or below 6 files across the benchmark set.
+- Repeated benchmark queries must hit the route cache on the second pass.
+- Timing changes are observational; do not fail solely on runner latency.
