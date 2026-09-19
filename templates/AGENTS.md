@@ -50,3 +50,10 @@ Learning feedback policy:
 - After a substantial task, record which files were actually useful, which routed files were unnecessary, and which tests were used.
 - Store deterministic feedback in `.ai/brain/routing-learning.json`.
 - Treat learned scores as routing hints only; always verify authoritative source before editing.
+
+
+Automatic learning policy:
+- After a successful repository-intelligence refresh with real source changes, allow Repo Brain to learn positive routing feedback from the changed source files.
+- Automatic negative feedback is only allowed when a prior task route exactly matches the active task.
+- Record the decision in `.ai/brain/auto-learning.json`.
+- Selected tests are hints only unless a separate validation step confirms execution.
