@@ -42,7 +42,8 @@
     "same-package-symbol-graph",
     "confidence-dynamic-context-budget",
     "deterministic-routing-learning",
-    "automatic-routing-learning"
+    "automatic-routing-learning",
+    "validation-memory"
   ],
-  "standards_version": 17
+  "standards_version": 18
 }
