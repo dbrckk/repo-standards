@@ -57,3 +57,10 @@ Automatic learning policy:
 - Automatic negative feedback is only allowed when a prior task route exactly matches the active task.
 - Record the decision in `.ai/brain/auto-learning.json`.
 - Selected tests are hints only unless a separate validation step confirms execution.
+
+
+Validation memory policy:
+- After actually running a targeted test, record its result in `.ai/brain/validation-memory.json`.
+- Passed tests increase future test-routing preference for similar task terms; failed tests reduce it.
+- Never mark a test as passed unless an execution result confirmed success.
+- Selected-but-not-run tests remain hints only.
