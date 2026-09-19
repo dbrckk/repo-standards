@@ -40,7 +40,8 @@
     "persistent-search-shards",
     "task-fingerprint-cache",
     "same-package-symbol-graph",
-    "confidence-dynamic-context-budget"
+    "confidence-dynamic-context-budget",
+    "deterministic-routing-learning"
   ],
-  "standards_version": 15
+  "standards_version": 16
 }
