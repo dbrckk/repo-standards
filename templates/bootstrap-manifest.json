@@ -43,7 +43,9 @@
     "confidence-dynamic-context-budget",
     "deterministic-routing-learning",
     "automatic-routing-learning",
-    "validation-memory"
+    "validation-memory",
+    "repo-brain-regression-gate",
+    "routing-benchmark"
   ],
-  "standards_version": 18
+  "standards_version": 19
 }
