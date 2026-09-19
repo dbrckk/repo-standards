@@ -41,7 +41,8 @@
     "task-fingerprint-cache",
     "same-package-symbol-graph",
     "confidence-dynamic-context-budget",
-    "deterministic-routing-learning"
+    "deterministic-routing-learning",
+    "automatic-routing-learning"
   ],
-  "standards_version": 16
+  "standards_version": 17
 }
