@@ -133,6 +133,7 @@ jobs:
           test -s .ai/brain/search-manifest.json
           test -d .ai/brain/search-shards
           test -s .ai/brain/query-cache.json
+          test -s .ai/brain/routing-learning.json
           test -d .ai/brain/context
           test -d .ai/brain/ast-symbols
           test -d .ai/brain/file-outlines
