@@ -136,6 +136,7 @@ jobs:
           test -s .ai/brain/routing-learning.json
           test -s .ai/brain/auto-learning.json
           test -s .ai/brain/validation-memory.json
+          test -s .ai/brain/benchmark.json
           test -d .ai/brain/context
           test -d .ai/brain/ast-symbols
           test -d .ai/brain/file-outlines
