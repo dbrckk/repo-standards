@@ -145,6 +145,11 @@ jobs:
       - name: Commit unified AI context
         shell: bash
         run: |
+          current_head="$(git rev-parse HEAD)"
+          if [ "$current_head" != "$GITHUB_SHA" ]; then
+            echo "Skipping stale repository-standards write: trigger=$GITHUB_SHA current=$current_head"
+            exit 0
+          fi
           git add -A .ai
           if git diff --cached --quiet; then
             echo "AI context unchanged."
