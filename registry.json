@@ -1,67 +1,110 @@
 {
   "schema_version": 1,
-  "generated_on": "2026-09-18",
+  "generated_on": "2026-10-09",
   "stable_release": "v10",
   "repositories": [
     {
       "repository": "dbrckk/ai-dev-server",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/xbow-perso",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/Jumpy",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/Ai-trading",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/zero-to-empire",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/deadline-zero",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/FTMO",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/star-list",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/Who-are-you",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     },
     {
       "repository": "dbrckk/Production-OS",
-      "standards_ref": "v10",
-      "version": 10,
-      "status": "adopted"
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
+    },
+    {
+      "repository": "dbrckk/alt-other-lives",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
+    },
+    {
+      "repository": "dbrckk/asset-forge",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88
     }
-  ]
+  ],
+  "active_policy": {
+    "repository": "dbrckk/repo-standards",
+    "path": "standards/88-rules.md",
+    "commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+    "rules": 88,
+    "applies_to": "adopted repositories; conditional rules by relevance"
+  }
 }
