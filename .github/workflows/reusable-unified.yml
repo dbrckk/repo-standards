@@ -2,6 +2,12 @@ name: Reusable unified repository standards
 
 on:
   workflow_call:
+    inputs:
+      ai_map_max_bytes:
+        description: "Maximum size of the compressed repository map (bytes)"
+        required: false
+        type: number
+        default: 1500000
 
 permissions:
   contents: write
@@ -12,6 +18,7 @@ jobs:
     uses: dbrckk/repo-standards/.github/workflows/reusable-ai-repo-map.yml@main
     with:
       commit_changes: false
+      max_bytes: ${{ inputs.ai_map_max_bytes }}
 
   repo-health:
     uses: dbrckk/repo-standards/.github/workflows/reusable-repo-health.yml@main
