@@ -1,5 +1,12 @@
 # Repository agent instructions
 
+## Politique générale — 88 règles
+
+Lire le [standard central de 88 règles](https://github.com/dbrckk/repo-standards/blob/main/standards/88-rules.md) lorsque le dépôt a adopté une référence qui le contient. Les anciennes références épinglées (par exemple v10) ne l'incluent pas automatiquement. Le [skill](https://github.com/dbrckk/repo-standards/blob/main/skills/repo-excellence-88/SKILL.md) fournit la procédure.
+
+**Ne pas créer de nouveaux tests unitaires** ; conserver les contrôles existants et privilégier les vérifications fonctionnelles, le lint, le build et l'intégration. Ne jamais prétendre qu'un contrôle non exécuté a réussi.
+
+
 This repository adopts shared standards from `dbrckk/repo-standards` at the release recorded in `.repo-standards.yml`.
 
 Before substantial work:

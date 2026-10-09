@@ -1,5 +1,12 @@
 # Global agent standards
 
+## Politique générale — 88 règles
+
+Le [catalogue permanent des 88 règles](standards/88-rules.md) et le [skill Repo Excellence 88](skills/repo-excellence-88/SKILL.md) complètent les conventions ci-dessous. Utiliser les règles fondamentales et activer les règles conditionnelles uniquement lorsque nécessaire.
+
+**Instruction explicite : ne pas créer de nouveaux tests unitaires.** Les tests existants restent utilisables ; privilégier les parcours fonctionnels, l'intégration, les contrôles statiques et le build. Ne pas inventer de résultats.
+
+
 These rules are intended to be inherited by repositories using dbrckk/repo-standards.
 
 ## Context first

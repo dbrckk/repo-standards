@@ -91,3 +91,12 @@ Recommended v5 reading order:
 9. `.ai/index.md`
 10. Relevant `.ai/maps/<area>.md`
 11. `.ai/repo-map.md` only when required
+
+## Standard permanent — 88 règles
+
+- [Catalogue officiel, priorités et règles conditionnelles](standards/88-rules.md)
+- [Skill opérationnel pour agents IA](skills/repo-excellence-88/SKILL.md)
+- [Wiki pédagogique et exemples](docs/WIKI-88.md)
+- [Politique de validation sans nouveaux tests unitaires](standards/testing.md)
+
+Les versions déjà épinglées (`v10` notamment) dans d'autres dépôts ne changent pas automatiquement. Cette modification ne met pas à jour leurs références et ne modifie pas les workflows existants.
