@@ -9,23 +9,8 @@
       "version": 20,
       "status": "adopted",
       "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
-    },
-    {
-      "repository": "dbrckk/xbow-perso",
-      "standards_ref": "main",
-      "version": 20,
-      "status": "adopted",
-      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
-    },
-    {
-      "repository": "dbrckk/Jumpy",
-      "standards_ref": "main",
-      "version": 20,
-      "status": "adopted",
-      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
     },
     {
       "repository": "dbrckk/Ai-trading",
@@ -33,55 +18,8 @@
       "version": 20,
       "status": "adopted",
       "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
-    },
-    {
-      "repository": "dbrckk/zero-to-empire",
-      "standards_ref": "main",
-      "version": 20,
-      "status": "adopted",
-      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
-    },
-    {
-      "repository": "dbrckk/deadline-zero",
-      "standards_ref": "main",
-      "version": 20,
-      "status": "adopted",
-      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
-    },
-    {
-      "repository": "dbrckk/FTMO",
-      "standards_ref": "main",
-      "version": 20,
-      "status": "adopted",
-      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
-    },
-    {
-      "repository": "dbrckk/star-list",
-      "standards_ref": "main",
-      "version": 20,
-      "status": "adopted",
-      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
-    },
-    {
-      "repository": "dbrckk/Who-are-you",
-      "standards_ref": "main",
-      "version": 20,
-      "status": "adopted",
-      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
-    },
-    {
-      "repository": "dbrckk/Production-OS",
-      "standards_ref": "main",
-      "version": 20,
-      "status": "adopted",
-      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
     },
     {
       "repository": "dbrckk/alt-other-lives",
@@ -89,7 +27,16 @@
       "version": 20,
       "status": "adopted",
       "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/Applio",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
     },
     {
       "repository": "dbrckk/asset-forge",
@@ -97,7 +44,240 @@
       "version": 20,
       "status": "adopted",
       "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
-      "policy_rules": 88
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/chaos-survival-roblox",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/Colab",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/coqui-XTTS-colab",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/deadline-zero",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/deal-finder-backend",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/Drackkie-artist",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/Finders",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/FTMO",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/glitchprice-finder",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/Jumpy",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/openclaw-render",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/page-agent-mobile",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/personavid-ai",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/Production-OS",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/Promo-alimentaire",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/repo-brain",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/star-list",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/TrendPulse-",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/TTS",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "dev"
+    },
+    {
+      "repository": "dbrckk/tube",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/vibecheck-android",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/video-site",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/viral-android-game",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/Who-are-you",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/xbow-perso",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/xtts2-hf",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
+    },
+    {
+      "repository": "dbrckk/zero-to-empire",
+      "standards_ref": "main",
+      "version": 20,
+      "status": "adopted",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "adoption_mode": "workflow-and-policy"
+    },
+    {
+      "repository": "dbrckk/zombie-apk",
+      "adoption_mode": "policy-only",
+      "status": "adopted-policy",
+      "policy_commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
+      "policy_rules": 88,
+      "default_branch": "main"
     }
   ],
   "active_policy": {
@@ -106,5 +286,22 @@
     "commit": "db2f86657ada74a0561e07189f9942d6b66ebb4a",
     "rules": 88,
     "applies_to": "adopted repositories; conditional rules by relevance"
+  },
+  "policy_rollout": {
+    "policy_repositories": 33,
+    "workflow_adopters": 12,
+    "policy_only_adopters": 21,
+    "central_repository": "dbrckk/repo-standards",
+    "pending": [
+      {
+        "repository": "dbrckk/Ai-video",
+        "reason": "empty_repository_no_initial_branch"
+      },
+      {
+        "repository": "dbrckk/Drackkie",
+        "reason": "GitHub_write_blocked_by_tool_security_controls"
+      }
+    ],
+    "note": "A policy-only adopter has AGENTS.md linking to a pinned standard; it has NOT enabled central reusable workflows."
   }
 }
