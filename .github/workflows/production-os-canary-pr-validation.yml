@@ -1,0 +1,80 @@
+name: Production-OS Canary PR Validation
+
+# Validate the exact persisted canary delivery on the target repository.
+# This cannot launch work, push code, read secrets, or approve/merge a PR.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
+    paths:
+      - '.production-os/worker-canary-*.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  canary-contract:
+    name: Verify published canary checkpoint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout PR merge commit without credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Validate target PR diff and exact delivered bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          import subprocess
+          from pathlib import Path
+
+          with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as stream:
+              event = json.load(stream)
+          pr = event.get("pull_request")
+          if not isinstance(pr, dict):
+              raise SystemExit("Not a pull request event")
+          head = pr.get("head") or {}
+          if (head.get("repo") or {}).get("full_name") != os.environ["GITHUB_REPOSITORY"]:
+              raise SystemExit("Checkpoint branch must belong to this repository")
+          if not re.fullmatch(r"studio/mp-[a-f0-9]{24}", str(head.get("ref") or "")):
+              raise SystemExit("Checkpoint branch is outside the trusted Studio namespace")
+
+          parents = subprocess.check_output(
+              ["git", "rev-list", "--parents", "-n", "1", "HEAD"], text=True
+          ).strip().split()
+          if len(parents) != 3 or parents[2] != str(head.get("sha") or ""):
+              raise SystemExit("Checked-out PR merge has the wrong head commit")
+
+          raw = subprocess.check_output(
+              ["git", "diff", "--name-only", "--no-renames", "-z", parents[1], "HEAD"]
+          )
+          names = [part.decode("utf-8") for part in raw.split(b"\x00") if part]
+          if len(names) != 1:
+              raise SystemExit("Canary checkpoint must change exactly one file")
+          name = names[0]
+          match = re.fullmatch(r"\.production-os/worker-canary-([1-9][0-9]*)\.txt", name)
+          if match is None or not 1 <= int(match.group(1)) <= 1_000_000_000:
+              raise SystemExit("Canary checkpoint path is invalid")
+          status = subprocess.check_output(
+              ["git", "diff", "--name-status", "--no-renames", parents[1], "HEAD"],
+              text=True,
+          ).strip()
+          if status != "A\t" + name:
+              raise SystemExit("Canary checkpoint must only add the expected file")
+          destination = Path(name)
+          if destination.is_symlink() or not destination.is_file():
+              raise SystemExit("Canary checkpoint must be a regular file")
+          expected = ("production-os-worker-canary sequence " + match.group(1)).encode("ascii")
+          if destination.read_bytes() not in (expected, expected + b"\n"):
+              raise SystemExit("Canary checkpoint contents do not match the requested sequence")
+          subprocess.run(
+              ["git", "diff", "--check", parents[1], "HEAD"], check=True
+          )
+          print("PASS: real canary PR contains one exact verified checkpoint")
+          PY
