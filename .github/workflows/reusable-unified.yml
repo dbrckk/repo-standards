@@ -165,4 +165,31 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore(ai): refresh unified AI context [skip render]"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          # Asset staging and other automations can push while this job is
+          # assembling .ai artifacts. Never force-push a stale context.
+          # Rebase only when the remote advanced *outside* .ai; otherwise
+          # a newer context already exists and this outdated one is discarded.
+          for attempt in 1 2 3 4 5 6; do
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "AI_CONTEXT_PUSH_SUCCESS_ATTEMPT=$attempt"
+              exit 0
+            fi
+            git fetch origin "refs/heads/${GITHUB_REF_NAME}"
+            remote_head="$(git rev-parse FETCH_HEAD)"
+            if ! git merge-base --is-ancestor "$GITHUB_SHA" "$remote_head"; then
+              echo "Skipping AI context: branch history changed during push"
+              exit 0
+            fi
+            if ! git diff --quiet "$GITHUB_SHA" "$remote_head" -- .ai; then
+              echo "Skipping stale AI context: remote has newer .ai changes"
+              exit 0
+            fi
+            if ! git rebase "$remote_head"; then
+              git rebase --abort || true
+              echo "::error::AI context rebase failed; no remote changes were overwritten"
+              exit 1
+            fi
+            sleep "$attempt"
+          done
+          echo "::error::AI context push was rejected after bounded retries"
+          exit 1
