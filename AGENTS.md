@@ -9,6 +9,12 @@ Le [catalogue permanent des 88 règles](standards/88-rules.md) et le [skill Repo
 
 These rules are intended to be inherited by repositories using dbrckk/repo-standards.
 
+## Recherche comparative et reverse engineering pour les nouvelles applications
+
+Avant d'implémenter les grandes fonctionnalités d'une application Android, appliquer le [workflow REA de références applicatives](skills/app-reference-rea/SKILL.md) : inventorier les alternatives, vérifier une source légitime pour chaque APK accessible, inscrire l'empreinte et les preuves dans `dbrckk/zombie-apk`, analyser la structure avec REA si les prérequis sont présents, puis produire une spécification indépendante orientée amélioration. Pour les APK non distribués directement par l'éditeur, documenter le blocage et utiliser les fiches officielles, démonstrations et applications open source comme références.
+
+Cette étape est un **processus opérationnel propre aux projets d'applications**, non une règle 89 : le corpus existant de 88 règles reste inchangé. Ne pas redistribuer d'APK ou d'assets propriétaires dans un dépôt public sans autorisation ; la collecte locale reste privée. Ne pas contourner DRM, contrôle d'accès, chiffrement ou restrictions contractuelles.
+
 ## Context first
 1. Read `.ai/project-state.md` when present.
 2. Read `.ai/brain/impact.json`.
