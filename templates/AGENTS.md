@@ -7,6 +7,8 @@ Lire le [standard central de 88 règles](https://github.com/dbrckk/repo-standard
 **Ne pas créer de nouveaux tests unitaires** ; conserver les contrôles existants et privilégier les vérifications fonctionnelles, le lint, le build et l'intégration. Ne jamais prétendre qu'un contrôle non exécuté a réussi.
 
 
+**Projets d'applications Android :** avant la conception détaillée, appliquer le [workflow de références REA](https://github.com/dbrckk/repo-standards/blob/main/skills/app-reference-rea/SKILL.md) : alternatives, sources officielles, vérification d'APK autorisés, catalogage dans `dbrckk/zombie-apk`, analyse REA puis conception indépendante. Une fiche Google Play n'est pas un téléchargement APK ; ne pas inventer un binaire ni publier un APK propriétaire dans un dépôt public. Ce processus n'ajoute pas de 89e règle.
+
 This repository adopts shared standards from `dbrckk/repo-standards` at the release recorded in `.repo-standards.yml`.
 
 Before substantial work:

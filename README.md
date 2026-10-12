@@ -100,3 +100,7 @@ Recommended v5 reading order:
 - [Politique de validation sans nouveaux tests unitaires](standards/testing.md)
 
 Les versions déjà épinglées (`v10` notamment) dans d'autres dépôts ne changent pas automatiquement. Cette modification ne met pas à jour leurs références et ne modifie pas les workflows existants.
+
+## Références d'applications et REA
+
+Pour les projets Android, utiliser le [skill de comparaison et reverse engineering REA](skills/app-reference-rea/SKILL.md), en complément du **standard immuable des 88 règles**. Le dépôt [dbrckk/zombie-apk](https://github.com/dbrckk/zombie-apk) conserve le catalogue d'analyses et les preuves d'origine ; les binaires ne sont publiés que si leur redistribution est autorisée. Le [modèle de fiche de référence](templates/app-reference-intake.md) documente aussi les cas où un APK officiel n'est pas directement disponible.
