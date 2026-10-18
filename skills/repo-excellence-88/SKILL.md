@@ -25,6 +25,21 @@ Toute intervention substantielle sur un dépôt, un produit, une infrastructure,
 - Respecter les instructions supérieures, les autorisations, les contraintes de sécurité et la volonté actuelle du propriétaire.
 - Prioriser : fiabilité > fonctionnement réel > sécurité > architecture > performances > interface > secondaire.
 
+### Découverte de skills complémentaires — si justifiée
+
+Avant de réinventer une procédure pour un travail d'agent, consulter
+[Skill Issue](https://skill-issue.in/) et les sources sélectionnées dans
+[`star-list/agent-skills.json`](https://github.com/dbrckk/star-list/blob/main/agent-skills.json).
+Retenir seulement les compétences pertinentes pour le moteur, le langage et
+l'objectif du dépôt. Lire et auditer le `SKILL.md` complet, ses scripts,
+permissions, licences et révision avant toute adoption. Ne jamais exécuter
+une installation distante ou transférer des secrets au seul motif que le
+site recommande une compétence. Mesurer le résultat dans les parcours
+réels du dépôt ; les suggestions non auditées restent des références.
+
+Cette précision applique les règles existantes de sélection des outils, de
+vérification de licence et de sécurité ; elle ne crée pas de 89e règle.
+
 ## Étape 3 — Implémenter
 
 - Résoudre d'abord les problèmes bloquants ; finir un changement cohérent avant le suivant.
